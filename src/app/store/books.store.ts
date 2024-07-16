@@ -1,5 +1,11 @@
-import { inject } from '@angular/core';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { computed, inject } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { BooksService } from '../books.service';
@@ -21,6 +27,9 @@ const initialState: BooksState = {
 export const BooksStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
+  withComputed((store) => ({
+    booksCount: computed(() => store.books().length),
+  })),
   withMethods((store, booksService = inject(BooksService)) => ({
     addBook(book: Book): void {
       patchState(store, (state) => ({ books: [...state.books, book] }));

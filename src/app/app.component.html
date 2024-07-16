@@ -1,3 +1,7 @@
+<h1>Books</h1>
+
+<p>Total books: {{ store.booksCount() }}</p>
+
 <ul>
   @for (item of store.books(); track item.id) {
   <li>{{ item.title }}</li>
